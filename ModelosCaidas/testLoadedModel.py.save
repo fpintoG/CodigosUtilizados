@@ -1,0 +1,25 @@
+from keras.models import model_from_json
+from keras.models import model_from_json
+from textInBatch import data_sequence
+from keras import optimizers
+from textInBatch import data_sequence
+from keras import optimizers
+
+file ='conv_blstm_modelv2'
+json_file = open(file + ".json", "r")
+loaded_model_json = json_file.read()
+print('loaded model')
+json_file.close()
+model = model_from_json(loaded_model_json)
+model.load_weights(file + ".h5")
+print('loaded weights')
+
+model.summary()
+#rmsprop = optimizers.RMSprop(lr=0.0001, rho=0.9, epsilon=None, decay=0.0)
+#model.compile(loss='binary_crossentropy', optimizer=rmsprop, metrics=['accuracy'])
+X_test, Y_test = data_sequence('testData/')
+ypred = model.predict_classes(X_test,verbose=1, batch_size=1)
+
+
+#scores = model.evaluate(X_test, Y_test, verbose=1)
+#print("Accuracy: %.2f%%" % (scores[1]*100))
